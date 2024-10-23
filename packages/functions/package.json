@@ -1,8 +1,8 @@
 {
-  "name": "@monorepo-template/functions",
+  "name": "@sistema-cid-sst/functions",
   "version": "0.0.0",
   "dependencies": {
-    "@monorepo-template/core": "*",
+    "@sistema-cid-sst/core": "*",
     "sst": "*"
   },
   "devDependencies": {

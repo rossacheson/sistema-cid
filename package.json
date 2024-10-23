@@ -1,5 +1,5 @@
 {
-  "name": "monorepo-template",
+  "name": "sistema-cid-sst",
   "version": "0.0.0",
   "workspaces": [
     "packages/*"
