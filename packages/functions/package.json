@@ -2,10 +2,14 @@
   "name": "@sistema-cid-sst/functions",
   "version": "0.0.0",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.677.0",
+    "@aws-sdk/lib-dynamodb": "^3.677.0",
     "@sistema-cid-sst/core": "*",
-    "sst": "*"
+    "sst": "*",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.137"
+    "@types/aws-lambda": "^8.10.145",
+    "@types/uuid": "^10.0.0"
   }
 }

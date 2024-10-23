@@ -1,8 +1,13 @@
-import { bucket } from "./storage";
+import { notesTable } from "./storage";
 
-export const api = new sst.aws.ApiGatewayV2("Api");
-
-api.route("GET /", {
-  link: [bucket],
-  handler: "packages/functions/src/api.handler",
+export const api = new sst.aws.ApiGatewayV2("Api", {
+  transform: {
+    route: {
+      handler: {
+        link: [notesTable],
+      },
+    }
+  }
 });
+
+api.route("POST /notes", "packages/functions/src/create.main");
