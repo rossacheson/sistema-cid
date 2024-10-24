@@ -18,6 +18,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Dynamo"
     }
+    "React": {
+      "type": "sst.aws.StaticSite"
+      "url": string
+    }
     "Uploads": {
       "name": string
       "type": "sst.aws.Bucket"
