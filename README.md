@@ -1,36 +1,20 @@
-# Monorepo Template
+# Sistema CID
+Una aplicación administrativa. 
 
-A template to create a monorepo SST ❍ Ion project.
+Built using SST serverless stack tools.
 
 ## Get started
-
-1. Use this template to [create your own repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
-
-2. Clone the new repo.
-
-   ```bash
-   git clone MY_APP
-   cd MY_APP
-   ```
-
-3. Rename the files in the project to the name of your app. 
-
-   ```bash
-   npx replace-in-file '/monorepo-template/g' MY_APP **/*.* --verbose
-   ```
-
-4. Deploy!
+1. Setup environment to run SST
+2. Deploy!
 
    ```bash
    npm install
    npx sst deploy
    ```
 
-6. Optionally, enable [_git push to deploy_](https://ion.sst.dev/docs/console/#autodeploy).
-
 ## Usage
 
-This template uses [npm Workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces). It has 3 packages to start with and you can add more it.
+This template uses [npm Workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces).
 
 1. `core/`
 

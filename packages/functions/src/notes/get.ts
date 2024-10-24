@@ -1,5 +1,5 @@
 import { Resource } from "sst";
-import { Util } from "@sistema-cid-sst/core/util";
+import { Util } from "@sistema-cid/core/util";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { GetCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 

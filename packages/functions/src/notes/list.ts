@@ -1,5 +1,5 @@
 import { Resource } from "sst";
-import { Util } from "@sistema-cid-sst/core/util";
+import { Util } from "@sistema-cid/core/util";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { QueryCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
@@ -15,7 +15,7 @@ export const main = Util.handler(async (event) => {
         // 'ExpressionAttributeValues' defines the value in the condition
         // - ':userId': defines 'userId' to be the id of the author
         ExpressionAttributeValues: {
-            ":userId": "123",
+            ":userId": event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
         },
     };
 

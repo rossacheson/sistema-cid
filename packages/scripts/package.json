@@ -1,8 +1,8 @@
 {
-  "name": "@sistema-cid-sst/scripts",
+  "name": "@sistema-cid/scripts",
   "version": "0.0.0",
   "dependencies": {
-    "@sistema-cid-sst/core": "*",
+    "@sistema-cid/core": "*",
     "sst": "*"
   },
   "scripts": {
