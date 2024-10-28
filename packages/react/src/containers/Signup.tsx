@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
-import { useNavigate } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { useFormFields } from '../lib/hooksLib';
@@ -17,7 +16,6 @@ export default function Signup() {
     confirmPassword: '',
     confirmationCode: '',
   });
-  const nav = useNavigate();
   const {userHasAuthenticated} = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
   const [newUser, setNewUser] = useState<null | ISignUpResult>(null);
@@ -59,7 +57,6 @@ export default function Signup() {
       await Auth.confirmSignUp(fields.email, fields.confirmationCode);
       await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
-      nav('/');
     } catch (e) {
       onError(e);
       setIsLoading(false);
