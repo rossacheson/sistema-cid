@@ -6,6 +6,10 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "Angular": {
+      "type": "sst.aws.StaticSite"
+      "url": string
+    }
     "Api": {
       "type": "sst.aws.ApiGatewayV2"
       "url": string
