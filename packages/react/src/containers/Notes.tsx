@@ -25,7 +25,7 @@ export default function Notes() {
 
     async function onLoad() {
       try {
-        const note = await loadNote();
+        const note: NoteType = await loadNote();
         const {content, attachment} = note;
 
         if (attachment) {
@@ -95,11 +95,18 @@ export default function Notes() {
     }
   }
 
-  async function handleDelete(event: React.FormEvent<HTMLFormElement>) {
+  async function deleteNote() {
+    if(note?.attachment){
+      await Storage.vault.remove(note.attachment);
+    }
+    return API.del("sistema-cid", `/notes/${id}`, {});
+  }
+
+  async function handleDelete(event: React.FormEvent<HTMLModElement>) {
     event.preventDefault();
 
     const confirmed = window.confirm(
-      'Are you sure you want to delete this note?'
+      "Are you sure you want to delete this note?"
     );
 
     if (!confirmed) {
@@ -107,6 +114,14 @@ export default function Notes() {
     }
 
     setIsDeleting(true);
+
+    try {
+      await deleteNote();
+      nav("/");
+    } catch (e) {
+      onError(e);
+      setIsDeleting(false);
+    }
   }
 
   return (
