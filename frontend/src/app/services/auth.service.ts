@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
 import { BehaviorSubject, from, Observable, tap } from 'rxjs';
+import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { SESSION_KEY } from '../shared/constants';
 
 @Injectable({
@@ -8,7 +9,8 @@ import { SESSION_KEY } from '../shared/constants';
 })
 export class AuthService {
   private _isAuthenticated$: BehaviorSubject<boolean>;
-  isAuthenticated$: Observable<boolean> ;
+  isAuthenticated$: Observable<boolean>;
+
   constructor() {
     const sessionString = sessionStorage.getItem(SESSION_KEY);
     this._isAuthenticated$ = new BehaviorSubject<boolean>(!!sessionString);
@@ -29,5 +31,16 @@ export class AuthService {
         this._isAuthenticated$.next(false);
         sessionStorage.removeItem(SESSION_KEY);
       }));
+  }
+
+  register(email: string, password: string): Observable<ISignUpResult> {
+    return from(Auth.signUp({
+      username: email,
+      password: password,
+    }));
+  }
+
+  confirmAccount(email: string, confirmationCode: string): Observable<any> {
+    return from(Auth.confirmSignUp(email, confirmationCode))
   }
 }

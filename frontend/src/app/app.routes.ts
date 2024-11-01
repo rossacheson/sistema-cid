@@ -4,7 +4,7 @@ import { PersonasComponent } from './pages/personas/personas.component';
 import { NotesComponent } from './pages/notes/notes.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LogoutComponent } from './pages/logout/logout.component';
-import { RegistrarComponent } from './pages/registrar/registrar.component';
+import { RegistrarseComponent } from './pages/registrarse/registrarse.component';
 import { isAuthenticated } from './guards/is-authenticated';
 import { isNotAuthenticated } from './guards/is-not-authenticated'
 
@@ -14,6 +14,6 @@ export const routes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [isAuthenticated] },
   { path: 'login', component: LoginComponent, canActivate: [isNotAuthenticated] },
   { path: 'logout', component: LogoutComponent, canActivate: [isAuthenticated] },
-  { path: 'registrar', component: RegistrarComponent, canActivate: [isNotAuthenticated] },
+  { path: 'registrarse', component: RegistrarseComponent, canActivate: [isNotAuthenticated] },
   { path: '', redirectTo: 'bienvenido', pathMatch: 'full' },
 ];
