@@ -1,8 +1,9 @@
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { config } from './config'
+import { SESSION_KEY } from '../shared/constants';
 
 export function initializeAmplify() {
-  return () => {
+  return async () => {
     Amplify.configure({
       Auth: {
         mandatorySignIn: true,
@@ -27,6 +28,19 @@ export function initializeAmplify() {
       },
     });
     console.log('Amplify configured');
+
+    try {
+      const session = await Auth.currentSession();
+      console.log('Existing session found');
+      // set the session in storage for the AuthService to pick up on initialization
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    } catch (error) {
+      if (error !== "No current user") {
+        console.error(error);
+      }
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+
     return Promise.resolve(); // Return a resolved Promise when setup is complete
   };
 }

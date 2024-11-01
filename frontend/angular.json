@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@sistema-cid/angular": {
+    "sistema-cid-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@ngx-env/builder:application",
           "options": {
-            "outputPath": "dist/sistema-cid/angular",
+            "outputPath": "dist/sistema-cid-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +64,10 @@
           "builder": "@ngx-env/builder:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "@sistema-cid/angular:build:production"
+              "buildTarget": "sistema-cid-frontend:build:production"
             },
             "development": {
-              "buildTarget": "@sistema-cid/angular:build:development"
+              "buildTarget": "sistema-cid-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

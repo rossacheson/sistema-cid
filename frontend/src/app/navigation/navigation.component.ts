@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Observable, map, shareReplay, filter } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -30,6 +31,7 @@ export class NavigationComponent implements AfterViewInit {
   isHandset$: Observable<boolean>;
   private breakpointObserver = inject(BreakpointObserver);
   @ViewChild(MatSidenav) sidenav?: MatSidenav;
+  isAuthenticated$ = inject(AuthService).isAuthenticated$.pipe(shareReplay());
 
   constructor() {
     this.isHandset$ = this.breakpointObserver
