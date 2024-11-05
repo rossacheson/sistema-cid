@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Auth } from 'aws-amplify';
+import {
+  confirmSignUp,
+  signIn,
+  signOut,
+  signUp
+} from 'aws-amplify/auth';
 import { BehaviorSubject, from, Observable, tap } from 'rxjs';
-import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { SESSION_KEY } from '../shared/constants';
 
 @Injectable({
@@ -17,30 +21,30 @@ export class AuthService {
     this.isAuthenticated$ = this._isAuthenticated$.asObservable();
   }
 
-  login(email: string, password: string): Observable<any> {
-    return from(Auth.signIn(email, password))
+  login(email: string, password: string) {
+    return from(signIn({username: email, password}))
       .pipe(tap(response => {
         console.log(response);
         this._isAuthenticated$.next(true);
       }));
   }
 
-  logout(): Observable<any> {
-    return from(Auth.signOut())
+  logout() {
+    return from(signOut())
       .pipe(tap(() => {
         this._isAuthenticated$.next(false);
         sessionStorage.removeItem(SESSION_KEY);
       }));
   }
 
-  register(email: string, password: string): Observable<ISignUpResult> {
-    return from(Auth.signUp({
+  register(email: string, password: string) {
+    return from(signUp({
       username: email,
-      password: password,
+      password,
     }));
   }
 
-  confirmAccount(email: string, confirmationCode: string): Observable<any> {
-    return from(Auth.confirmSignUp(email, confirmationCode))
+  confirmAccount(email: string, confirmationCode: string) {
+    return from(confirmSignUp({username: email, confirmationCode}))
   }
 }

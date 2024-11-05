@@ -1,36 +1,15 @@
-import { Amplify, Auth } from 'aws-amplify';
-import { config } from './config'
+import { Amplify } from 'aws-amplify';
+import { fetchAuthSession  } from 'aws-amplify/auth'
 import { SESSION_KEY } from '../shared/constants';
+import { resourcesConfig } from './resources-config';
 
 export function initializeAmplify() {
   return async () => {
-    Amplify.configure({
-      Auth: {
-        mandatorySignIn: true,
-        region: config.cognito.REGION,
-        userPoolId: config.cognito.USER_POOL_ID,
-        identityPoolId: config.cognito.IDENTITY_POOL_ID,
-        userPoolWebClientId: config.cognito.APP_CLIENT_ID,
-      },
-      Storage: {
-        region: config.s3.REGION,
-        bucket: config.s3.BUCKET,
-        identityPoolId: config.cognito.IDENTITY_POOL_ID,
-      },
-      API: {
-        endpoints: [
-          {
-            name: "sistema-cid",
-            endpoint: config.apiGateway.URL,
-            region: config.apiGateway.REGION,
-          },
-        ],
-      },
-    });
+    Amplify.configure(resourcesConfig);
     console.log('Amplify configured');
 
     try {
-      const session = await Auth.currentSession();
+      const session = await fetchAuthSession();
       console.log('Existing session found');
       // set the session in storage for the AuthService to pick up on initialization
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
