@@ -1,0 +1,22 @@
+@mixin generate-palette-variables-and-classes($palettes) {
+  /* generate CSS variables based on palettes */
+  :root {
+    @each $category, $val in $palettes {
+      @each $shade, $value in $val {
+        --cid-#{$category}-#{$shade}: #{$value};
+      }
+    }
+    --cid-dark-primary-background: var(--cid-primary-20);
+    --cid-dark-primary-foreground: var(--cid-primary-80);
+    --cid-dark-text: var(--cid-primary-100);
+  }
+
+  /* Add some utility classes */
+
+  .cid-dark-primary-background {
+    background-color: var(--cid-dark-primary-background);
+  }
+  .cid-dark-text {
+    color: var(--cid-dark-text);
+  }
+}

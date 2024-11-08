@@ -1,9 +1,10 @@
 <mat-sidenav-container class="sidenav-container" >
+  @let isHandset = isHandset$ | async;
   <mat-sidenav
     #sidenav
     class="sidenav"
     fixedInViewport
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [mode]="isHandset ? 'over' : 'side'"
   >
     <mat-nav-list>
       @if(isAuthenticated$ | async) {
@@ -20,7 +21,7 @@
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      @if(isHandset$ | async) {
+      @if(isHandset) {
         <button
           type="button"
           aria-label="Toggle sidenav"

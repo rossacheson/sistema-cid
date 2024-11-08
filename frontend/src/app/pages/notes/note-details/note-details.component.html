@@ -1,0 +1,20 @@
+<h1>Note Details</h1>
+@if(isLoading) {
+  <app-page-loader></app-page-loader>
+} @else {
+  @if(note) {
+    <div class="note-details">
+      <div>{{note.content}}</div>
+      @if(note.attachment) {
+        <div><a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="{{note.attachmentURL}}"
+        >{{note.attachment}}</a></div>
+      }
+      <div>{{note.createdAt | date}}</div>
+    </div>
+  } @else {
+    <div>Note not found</div>
+  }
+}

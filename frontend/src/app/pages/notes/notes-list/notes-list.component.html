@@ -1,0 +1,22 @@
+<h1>Notes</h1>
+@if(isLoading) {
+  <app-page-loader></app-page-loader>
+} @else {
+  @if(notes.length === 0) {
+    <div> There are no items. </div>
+  } @else {
+    <mat-grid-list cols="2">
+      @for (note of notes; track note.noteId;) {
+        <mat-grid-tile class="cid-dark-primary-background">
+          <div class="grid-note">
+            <div>{{note.content}}</div>
+            @if(note.attachment) {
+              <div>{{note.attachment}}</div>
+            }
+            <a routerLink="details/{{note.noteId}}">View</a>
+          </div>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  }
+}

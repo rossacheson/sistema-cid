@@ -1,19 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { NotesService } from '../../services/notes.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-notes',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterOutlet
+  ],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss'
 })
-export class NotesComponent implements OnInit {
-  notesService = inject(NotesService);
-  ngOnInit() {
-    this.notesService.getNotes().subscribe(notes => {
-      console.log(notes);
-    })
-  }
-
+export class NotesComponent {
 }

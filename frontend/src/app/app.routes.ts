@@ -11,7 +11,12 @@ import { isNotAuthenticated } from './guards/is-not-authenticated'
 export const routes: Routes = [
   { path: 'bienvenido', component: BienvenidoComponent, canActivate: [isAuthenticated] },
   { path: 'personas', component: PersonasComponent, canActivate: [isAuthenticated] },
-  { path: 'notes', component: NotesComponent, canActivate: [isAuthenticated] },
+  {
+    path: 'notes',
+    component: NotesComponent,
+    canActivate: [isAuthenticated],
+    loadChildren: () => import('./pages/notes/notes.routes').then(m => m.notesRoutes)
+  },
   { path: 'login', component: LoginComponent, canActivate: [isNotAuthenticated] },
   { path: 'logout', component: LogoutComponent, canActivate: [isAuthenticated] },
   { path: 'registrarse', component: RegistrarseComponent, canActivate: [isNotAuthenticated] },

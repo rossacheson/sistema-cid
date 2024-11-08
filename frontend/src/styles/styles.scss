@@ -2,6 +2,7 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 @use './cid-theme';
+@use './generate-palette-util';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -19,11 +20,15 @@ html {
   @include mat.icon-theme(cid-theme.$dark-theme);
   @include mat.icon-button-theme(cid-theme.$dark-theme);
   @include mat.form-field-theme(cid-theme.$dark-theme);
+  @include mat.progress-spinner-theme(cid-theme.$dark-theme);
+  @include mat.grid-list-theme(cid-theme.$dark-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
 // For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
 // @include mat.typography-hierarchy($@sistema-cid/angular-theme);
+
+@include generate-palette-util.generate-palette-variables-and-classes(cid-theme.$palettes);
 
 /* You can add global styles to this file, and also import other style files */
 
