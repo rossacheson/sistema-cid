@@ -10,9 +10,13 @@ export function initializeAmplify() {
 
     try {
       const session = await fetchAuthSession();
-      console.log('Existing session found');
-      // set the session in storage for the AuthService to pick up on initialization
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      if(session?.tokens) {
+        console.log('Existing session found');
+        // set the session in storage for the AuthService to pick up on initialization
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      } else {
+        sessionStorage.removeItem(SESSION_KEY);
+      }
     } catch (error) {
       if (error !== "No current user") {
         console.error(error);

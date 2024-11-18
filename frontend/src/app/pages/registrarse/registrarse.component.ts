@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -44,11 +44,14 @@ class DirtyErrorStateMatcher implements ErrorStateMatcher {
     ReactiveFormsModule
   ],
   templateUrl: './registrarse.component.html',
-  styleUrl: './registrarse.component.scss'
+  styleUrl: './registrarse.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegistrarseComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+
   registrationForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -74,6 +77,7 @@ export class RegistrarseComponent {
           this.newUserPassword = password;
           this.step = 'confirm';
           this.isLoading = false;
+          this.cdr.markForCheck();
         },
         error: () => alert('problem signing up'),
       });
