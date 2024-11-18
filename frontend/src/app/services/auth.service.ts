@@ -24,8 +24,12 @@ export class AuthService {
   login(email: string, password: string) {
     return from(signIn({username: email, password}))
       .pipe(tap(response => {
-        console.log(response);
-        this._isAuthenticated$.next(true);
+        if(response.isSignedIn) {
+          console.log(response);
+          this._isAuthenticated$.next(true);
+        } else {
+          console.log('signIn unsuccessful');
+        }
       }));
   }
 
