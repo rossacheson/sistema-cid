@@ -6,6 +6,7 @@
     "@aws-sdk/lib-dynamodb": "^3.677.0",
     "@sistema-cid/core": "*",
     "sst": "*",
+    "ulid": "^2.3.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
