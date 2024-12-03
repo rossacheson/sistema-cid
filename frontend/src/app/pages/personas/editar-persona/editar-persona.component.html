@@ -31,10 +31,50 @@
       }
     </mat-form-field>
 
+    <mat-form-field appearance="fill">
+      <mat-label>Hipocoristico</mat-label>
+      <input matInput formControlName="hipocoristico" type="text"/>
+    </mat-form-field>
+
     <mat-radio-group aria-label="Select an option" formControlName="sexo">
       <mat-radio-button value="Masculino">Masculino</mat-radio-button>
       <mat-radio-button value="Femenino">Femenino</mat-radio-button>
     </mat-radio-group>
+
+    <mat-form-field>
+      <mat-label>Afiliación</mat-label>
+      <mat-select formControlName="afiliacion">
+        <mat-option value="Miembro">Miembro</mat-option>
+        <mat-option value="Voluntario">Voluntario</mat-option>
+        <mat-option value="Beneficiario">Beneficiario</mat-option>
+        <mat-option value="Prospecto">Prospecto</mat-option>
+        <mat-option value="Donador">Donador</mat-option>
+        <mat-option value="Salido">Salido</mat-option>
+        <mat-option value="Vencedor">Vencedor</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Compromiso Actual</mat-label>
+      <mat-select formControlName="compromisoActual">
+        <mat-option value="Inicial">Inicial</mat-option>
+        <mat-option value="En Camino">En Camino</mat-option>
+        <mat-option value="Solemne">Solemne</mat-option>
+        <mat-option value="Misión">Misión</mat-option>
+        <mat-option value="Invitado">Invitado</mat-option>
+        <mat-option value="Ninguno">Ninguno</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>CURP</mat-label>
+      <input matInput formControlName="curp" type="text"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>RFC</mat-label>
+      <input matInput formControlName="rfc" type="text"/>
+    </mat-form-field>
 
     <button mat-raised-button color="primary" type="submit" [disabled]="editarPersonaForm.invalid || isLoading">
       {{ modo === 'agregar' ? 'Agregar' : 'Guardar' }}

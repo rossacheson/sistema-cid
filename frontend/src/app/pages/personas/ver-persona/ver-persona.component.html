@@ -1,0 +1,15 @@
+@if(isLoading) {
+  <app-page-loader></app-page-loader>
+} @else {
+  @if(persona) {
+    <div class="persona-details">
+      <h1>{{persona.nombre}} {{persona.apellidoPaterno}}  {{persona.apellidoMaterno}}</h1>
+      <h2>Datos Basicos</h2>
+      <div>Sexo: {{persona.sexo}}</div>
+      <div>Record creado: {{persona.createdAt | date}}</div>
+      <div>Record actualizado: {{persona.updatedAt | date}}</div>
+    </div>
+  } @else {
+    <div>Persona no encontrado</div>
+  }
+}

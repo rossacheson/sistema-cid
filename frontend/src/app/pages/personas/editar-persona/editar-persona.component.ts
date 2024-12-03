@@ -5,6 +5,7 @@ import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { MatOption, MatSelect } from '@angular/material/select';
 import { PersonasService } from '../../../services/personas.service';
 
 @Component({
@@ -18,7 +19,9 @@ import { PersonasService } from '../../../services/personas.service';
     MatLabel,
     ReactiveFormsModule,
     MatRadioGroup,
-    MatRadioButton
+    MatRadioButton,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './editar-persona.component.html',
   styleUrl: './editar-persona.component.scss',
@@ -36,6 +39,11 @@ export class EditarPersonaComponent implements OnInit {
     apellidoMaterno: new FormControl(''),
     correo: new FormControl('', [Validators.email]),
     sexo: new FormControl<string | null>(null, [Validators.required]),
+    afiliacion: new FormControl<string>('Miembro', [Validators.required]),
+    compromisoActual: new FormControl<string | null>(null, [Validators.required]),
+    hipocoristico: new FormControl<string | null>(null),
+    curp: new FormControl<string | null>(null),
+    rfc: new FormControl<string | null>(null),
   });
 
   ngOnInit(): void {
@@ -50,7 +58,7 @@ export class EditarPersonaComponent implements OnInit {
         this.personasService.agregarPersona(formValue).subscribe({
           next: (result) => {
             console.log(result);
-            this.router.navigate([`/personas/${result.id}`]);
+            this.router.navigate([`/personas/ver/${result.id}`]);
           },
           error: error => {
             console.log(error);

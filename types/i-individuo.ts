@@ -2,20 +2,27 @@ import { Telefono } from "./telefono";
 import { Idioma } from "./idioma";
 import { Direccion } from "./direccion";
 import { Escolaridad } from "./escolaridad";
+import { NivelDeCompromiso } from "./nivel-de-compromiso";
+import { Compromiso } from "./i-compromiso";
+import { Sexo } from "./sexo";
+import { EstadoCivil } from "./estado-civil";
+import { TipoDeSangre } from "./tipo-de-sangre";
+import { Afiliacion } from "./afiliacion";
 
 export interface IIndividuo {
   id?: string;
   nombre: string;
   apellidoPaterno: string;
   apellidoMaterno?: string;
-  afiliacion?: 'miembro' | 'voluntario' | 'beneficiario' | 'prospecto' | 'donador' | 'salido' | 'vencedor';
-  compromiso?: 'invitado' | 'inicial' | 'en camino' | 'solemne';
+  afiliacion?: Afiliacion;
+  compromisoActual?: NivelDeCompromiso;
+  compromisos?: Compromiso[];
   correo?: string;
   hipocoristico?: string;
   direccion?: Direccion;
   curp?: string;
   rfc?: string;
-  estadoCivil?: 'Casado' | 'Divorciado' | 'Soltero';
+  estadoCivil?: EstadoCivil;
   estatura?: number;
   peso?: number;
   calzado?: number;
@@ -26,10 +33,10 @@ export interface IIndividuo {
   fotoUrl?: string;
   idiomas?: Idioma[];
   nacionalidad?: string;
-  sexo: 'Masculino' | 'Femenino';
+  sexo: Sexo;
   tallaPlayera?: string;
   telefonos?: Telefono[];
-  tipoDeSangre?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  tipoDeSangre?: TipoDeSangre;
   
   createdAt?: string;
   updatedAt?: string;

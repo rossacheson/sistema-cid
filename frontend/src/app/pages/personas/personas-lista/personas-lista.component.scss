@@ -1,3 +1,8 @@
 table {
   width: 100%;
 }
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+  background-color: var(--cid-dark-primary-background);
+}

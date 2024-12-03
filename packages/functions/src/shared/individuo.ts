@@ -1,13 +1,46 @@
 import { ulid } from "ulid";
 import { Item } from "./item";
 import { IIndividuo } from "../../../../types/i-individuo";
+import { NivelDeCompromiso } from "../../../../types/nivel-de-compromiso";
+import { Afiliacion } from "../../../../types/afiliacion";
+import { Compromiso } from "../../../../types/i-compromiso";
+import { Direccion } from "../../../../types/direccion";
+import { EstadoCivil } from "../../../../types/estado-civil";
+import { Escolaridad } from "../../../../types/escolaridad";
+import { Idioma } from "../../../../types/idioma";
+import { Sexo } from "../../../../types/sexo";
+import { Telefono } from "../../../../types/telefono";
+import { TipoDeSangre } from "../../../../types/tipo-de-sangre";
 
 export class Individuo extends Item implements IIndividuo {
     id?: string;
     nombre!: string;
     apellidoPaterno!: string;
     apellidoMaterno?: string;
-    sexo!: "Masculino" | "Femenino";
+    afiliacion?: Afiliacion;
+    compromisoActual?: NivelDeCompromiso;
+    compromisos?: Compromiso[];
+    correo?: string;
+    hipocoristico?: string;
+    direccion?: Direccion;
+    curp?: string;
+    rfc?: string;
+    estadoCivil?: EstadoCivil;
+    estatura?: number;
+    peso?: number;
+    calzado?: number;
+    escolaridadLogrado?: Escolaridad;
+    escolaridadEnCurso?: Escolaridad;
+    fechaDeNacimiento?: string;
+    fotoFileName?: string;
+    fotoUrl?: string;
+    idiomas?: Idioma[];
+    nacionalidad?: string;
+    sexo!: Sexo;
+    tallaPlayera?: string;
+    telefonos?: Telefono[];
+    tipoDeSangre?: TipoDeSangre;
+
     createdAt?: string;
     updatedAt?: string;
     
@@ -29,16 +62,7 @@ export class Individuo extends Item implements IIndividuo {
     get gsi1sk(): string | undefined { return this.apellidoPaterno; }
 
     toItem(): Record<string, unknown> {
-        return {
-            ...this.keys(),
-            id: this.id,
-            nombre: this.nombre,
-            apellidoPaterno: this.apellidoPaterno,
-            apellidoMaterno: this.apellidoMaterno,
-            sexo: this.sexo,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt,
-        };
+        return Object.assign({}, this, this.keys());
     }
 
 }

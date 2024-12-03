@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { PersonasService } from '../../../services/personas.service';
-import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
-import { IIndividuo } from '../../../../../../types/i-individuo';
+import { Router, RouterLink } from '@angular/router';
 import {
   MatCell,
   MatCellDef,
@@ -15,6 +12,9 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
+import { PersonasService } from '../../../services/personas.service';
+import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
+import { IIndividuo } from '../../../../../../types/i-individuo';
 
 @Component({
   selector: 'app-personas-lista',
@@ -40,22 +40,27 @@ import {
 export class PersonasListaComponent implements OnInit {
   personasService = inject(PersonasService);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   isLoading = true;
   displayedColumns: string[] = ['nombre', 'apellidos', 'sexo'];
   personas: IIndividuo[] = [];
 
   ngOnInit() {
-    this.personasService.getPersonas().subscribe(personas => {
-      // check if personas is an array
-      if (Array.isArray(personas)) {
+    this.personasService.getPersonas().subscribe({
+      next: personas => {
         this.personas = personas;
-      } else {
-        console.error('Malformed response: ', personas);
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.markForCheck();
       }
+    });
+  }
 
-      this.isLoading = false;
-      this.cdr.markForCheck();
-    })
+  goToPersona(persona: IIndividuo): void {
+    this.router.navigate([`/personas/ver/${persona.id}`], {state: {persona}});
   }
 }
