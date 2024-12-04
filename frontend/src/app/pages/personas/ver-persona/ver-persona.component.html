@@ -4,6 +4,7 @@
   @if(persona) {
     <div class="persona-details">
       <h1>{{persona.nombre}} {{persona.apellidoPaterno}}  {{persona.apellidoMaterno}}</h1>
+      <a [routerLink]="'/personas/editar/' + persona.id">Editar</a>
       <h2>Datos Basicos</h2>
       <div>Sexo: {{persona.sexo}}</div>
       <div>Record creado: {{persona.createdAt | date}}</div>

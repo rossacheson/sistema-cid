@@ -17,6 +17,7 @@ export const api = new sst.aws.ApiGatewayV2("Api", {
 api.route("POST /individuos", "packages/functions/src/individuos/create.main");
 api.route("GET /individuos", "packages/functions/src/individuos/list.main");
 api.route("GET /individuos/{id}", "packages/functions/src/individuos/get.main");
+api.route("PUT /individuos/{id}", "packages/functions/src/individuos/update.main");
 
 api.route("POST /notes", "packages/functions/src/notes/create.main");
 api.route("GET /notes/{id}", "packages/functions/src/notes/get.main");
