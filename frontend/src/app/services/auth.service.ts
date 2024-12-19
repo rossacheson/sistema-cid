@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import {
   confirmSignUp,
+  fetchAuthSession,
   signIn,
   signOut,
-  signUp
+  signUp,
+  AuthSession
 } from 'aws-amplify/auth';
 import { BehaviorSubject, from, Observable, tap } from 'rxjs';
 import { SESSION_KEY } from '../shared/constants';
+import { UserGroup } from '../../../../types/user-group';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +17,22 @@ import { SESSION_KEY } from '../shared/constants';
 export class AuthService {
   private _isAuthenticated$: BehaviorSubject<boolean>;
   isAuthenticated$: Observable<boolean>;
+  private _userGroups$: BehaviorSubject<UserGroup[]>;
+  userGroups$: Observable<UserGroup[]>;
 
   constructor() {
     const sessionString = sessionStorage.getItem(SESSION_KEY);
-    this._isAuthenticated$ = new BehaviorSubject<boolean>(!!sessionString);
+    const sessionExists = !!sessionString;
+    this._isAuthenticated$ = new BehaviorSubject<boolean>(sessionExists);
     this.isAuthenticated$ = this._isAuthenticated$.asObservable();
+    if(sessionExists) {
+      const session: AuthSession = JSON.parse(sessionString);
+      const userGroups = session.tokens?.idToken?.payload['cognito:groups'] as UserGroup[] ?? [];
+      this._userGroups$ = new BehaviorSubject<UserGroup[]>(userGroups);
+    } else {
+      this._userGroups$ = new BehaviorSubject<UserGroup[]>([]);
+    }
+    this.userGroups$ = this._userGroups$.asObservable();
   }
 
   login(email: string, password: string) {
@@ -27,6 +41,7 @@ export class AuthService {
         if(response.isSignedIn) {
           console.log(response);
           this._isAuthenticated$.next(true);
+          this.getAndStoreSession();
         } else {
           console.log('signIn unsuccessful');
         }
@@ -50,5 +65,18 @@ export class AuthService {
 
   confirmAccount(email: string, confirmationCode: string) {
     return from(confirmSignUp({username: email, confirmationCode}))
+  }
+
+  private getAndStoreSession(): void {
+    from(fetchAuthSession()).subscribe(session => {
+      if(session?.tokens) {
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        const userGroups = session.tokens?.idToken?.payload['cognito:groups'] as UserGroup[] ?? [];
+        this._userGroups$.next(userGroups);
+      } else {
+        sessionStorage.removeItem(SESSION_KEY);
+        this._userGroups$.next([]);
+      }
+    })
   }
 }

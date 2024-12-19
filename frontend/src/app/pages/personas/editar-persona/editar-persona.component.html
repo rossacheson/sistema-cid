@@ -1,4 +1,4 @@
-@if(isLoading) {
+@if (isLoading()) {
   <app-page-loader></app-page-loader>
 } @else {
   <div class="cid-full-height-centered-content">
@@ -79,10 +79,16 @@
         <input matInput formControlName="rfc" type="text"/>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="editarPersonaForm.invalid || isLoading">
+      <button mat-raised-button color="primary" class="submit-button" type="submit"
+              [disabled]="editarPersonaForm.invalid || isLoading()">
         {{ modo === 'agregar' ? 'Agregar' : 'Guardar' }}
       </button>
+
+      @if (modo === 'editar' && (isAdmin$ | async)) {
+        <button mat-raised-button class="delete-button" type="button" (click)="confirmDeletion()">
+          Borrar
+        </button>
+      }
     </form>
   </div>
 }
-

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PersonasService } from '../../../services/personas.service';
 import { IIndividuo } from '../../../../../../types/i-individuo';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
@@ -10,7 +10,8 @@ import { PageLoaderComponent } from '../../../components/page-loader/page-loader
   standalone: true,
   imports: [
     DatePipe,
-    PageLoaderComponent
+    PageLoaderComponent,
+    RouterLink
   ],
   templateUrl: './ver-persona.component.html',
   styleUrl: './ver-persona.component.scss',
@@ -36,15 +37,17 @@ export class VerPersonaComponent implements OnInit {
   }
 
   private getPersona(id: string): void {
-    this.service.getPersona(id).subscribe(persona => {
-      this.persona = persona;
-      this.isLoading = false;
-      this.cdr.markForCheck();
-    },
-      () => {
+    this.service.getPersona(id).subscribe({
+      next: persona => {
+        this.persona = persona;
         this.isLoading = false;
         this.cdr.markForCheck();
-      });
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
 }

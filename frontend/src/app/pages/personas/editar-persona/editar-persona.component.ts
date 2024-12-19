@@ -1,14 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { map, Observable } from 'rxjs';
 import { PersonasService } from '../../../services/personas.service';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
 import { IIndividuo } from '../../../../../../types/i-individuo';
+import { BorrarConfirmacionComponent } from './borrar-confirmacion/borrar-confirmacion.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-editar-persona',
@@ -24,7 +29,8 @@ import { IIndividuo } from '../../../../../../types/i-individuo';
     MatRadioButton,
     MatSelect,
     MatOption,
-    PageLoaderComponent
+    PageLoaderComponent,
+    AsyncPipe
   ],
   templateUrl: './editar-persona.component.html',
   styleUrl: './editar-persona.component.scss',
@@ -33,9 +39,12 @@ import { IIndividuo } from '../../../../../../types/i-individuo';
 export class EditarPersonaComponent implements OnInit {
   router = inject(Router);
   service = inject(PersonasService);
-  private cdr = inject(ChangeDetectorRef);
+  readonly dialog = inject(MatDialog);
+  isAdmin$: Observable<boolean> = inject(AuthService).userGroups$.pipe(
+    map(userGroups => userGroups.includes('admins')),
+  );
   modo!: 'agregar' | 'editar';
-  isLoading = true;
+  isLoading = signal<boolean>(true);
   private id = inject(ActivatedRoute).snapshot.paramMap.get('id')!;
   private persona?: IIndividuo;
 
@@ -57,14 +66,13 @@ export class EditarPersonaComponent implements OnInit {
     if (this.modo === 'editar') {
       this.getPersona(this.id);
     } else {
-      this.isLoading = false;
+      this.isLoading.set(false);
     }
   }
 
   onSubmit() {
     if (this.editarPersonaForm.valid) {
-      this.isLoading = true;
-      this.cdr.markForCheck();
+      this.isLoading.set(true);
       const formValue = this.editarPersonaForm.value;
       if(this.modo === 'agregar'){
         this.service.agregarPersona(formValue).subscribe({
@@ -92,18 +100,40 @@ export class EditarPersonaComponent implements OnInit {
     }
   }
 
+  confirmDeletion(): void {
+    const dialogRef = this.dialog.open(BorrarConfirmacionComponent);
+
+    dialogRef.afterClosed().subscribe((result?: boolean) => {
+      if(result === true) {
+        this.isLoading.set(true);
+        console.log('Deleting persona');
+        this.service.deletePersona(this.id).subscribe({
+          next: (result: boolean) => {
+            if (result) {
+              this.router.navigate(['/personas']);
+            } else {
+              console.error('Error en eliminar la persona');
+              this.isLoading.set(false);
+            }
+          },
+          error: error => {
+            console.error(error);
+          }
+        });
+      }
+    });
+  }
+
   private getPersona(id: string): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.service.getPersona(id).subscribe({
       next: persona => {
         this.editarPersonaForm.patchValue(persona);
-        this.isLoading = false;
-        this.cdr.markForCheck();
+        this.isLoading.set(false);
         this.persona = persona;
       },
       error: () => {
-        this.isLoading = false;
-        this.cdr.markForCheck();
+        this.isLoading.set(false);
       }
     });
   }

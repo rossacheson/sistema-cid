@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { get, post, put } from 'aws-amplify/api';
+import { del, get, post, put } from 'aws-amplify/api';
 import { from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { API_NAME } from '../shared/constants';
 import { IIndividuo } from '../../../../types/i-individuo';
@@ -78,6 +78,24 @@ export class PersonasService {
           return res;
         }),
         tap((res) => this.cacheService.set(apiPath, res, undefined, true))
+      );
+  }
+
+  deletePersona(id: string): Observable<boolean> {
+    const apiPath = `${this.apiBasePath}/${id}`;
+    return from(del({apiName: API_NAME, path: apiPath}).response)
+      .pipe(
+        map(res => {
+          if(res.statusCode !== 200){
+            console.error(res);
+            throw new Error(`Error: ${JSON.stringify(res)}`);
+          }
+          return true;
+        }),
+        tap(() => {
+          this.cacheService.delete(this.apiBasePath);
+          this.cacheService.delete(apiPath);
+        })
       );
   }
 }

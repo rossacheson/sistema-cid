@@ -1,0 +1,1 @@
+export type UserGroup = 'admins' | 'coordinadores' | 'responsablesMayores' | 'responsablesPastorales' | 'finanzas';
