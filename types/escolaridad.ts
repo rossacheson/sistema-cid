@@ -1,0 +1,1 @@
+export type Escolaridad = 'Primaria' | 'Secundaria' | 'Bachillerato' | 'Licenciatura' | 'Maestría' | 'Doctorado';

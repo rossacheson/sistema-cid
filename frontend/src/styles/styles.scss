@@ -22,6 +22,10 @@ html {
   @include mat.form-field-theme(cid-theme.$dark-theme);
   @include mat.progress-spinner-theme(cid-theme.$dark-theme);
   @include mat.grid-list-theme(cid-theme.$dark-theme);
+  @include mat.radio-theme(cid-theme.$dark-theme);
+  @include mat.table-theme(cid-theme.$dark-theme);
+  @include mat.select-theme(cid-theme.$dark-theme);
+  @include mat.dialog-theme(cid-theme.$dark-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
@@ -34,6 +38,24 @@ html {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cid-full-height-centered-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cid-vertical-form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.delete-button {
+  @include mat.button-color(cid-theme.$dark-theme, $color-variant: error);
+}
 
 /* Angular Material Overrides */
 

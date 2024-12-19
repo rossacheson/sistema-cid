@@ -1,0 +1,1 @@
+export type NivelDeCompromiso = 'Misión' | 'Invitado' | 'Inicial' | 'En Camino' | 'Solemne' | 'Ninguno';

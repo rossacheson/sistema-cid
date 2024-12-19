@@ -10,6 +10,10 @@ declare module "sst" {
       "type": "sst.aws.ApiGatewayV2"
       "url": string
     }
+    "CID": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
     "Frontend": {
       "type": "sst.aws.StaticSite"
       "url": string
@@ -21,10 +25,6 @@ declare module "sst" {
     "Notes": {
       "name": string
       "type": "sst.aws.Dynamo"
-    }
-    "React": {
-      "type": "sst.aws.StaticSite"
-      "url": string
     }
     "Uploads": {
       "name": string

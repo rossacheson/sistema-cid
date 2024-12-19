@@ -1,0 +1,1 @@
+export type Afiliacion = 'Miembro' | 'Voluntario' | 'Beneficiario' | 'Prospecto' | 'Donador' | 'Salido' | 'Vencedor';

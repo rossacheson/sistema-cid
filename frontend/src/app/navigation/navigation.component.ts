@@ -46,9 +46,13 @@ export class NavigationComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.isHandset$
       .pipe(filter(isHandset => !isHandset))
-      .subscribe(() => {
-        console.log('Not on mobile');
-        this.sidenav?.open();
-      })
+      .subscribe(isHandset => {
+        if (isHandset) {
+          console.log('Mobile mode');
+        } else {
+          console.log('Desktop mode');
+          this.sidenav?.open();
+        }
+      });
   }
 }

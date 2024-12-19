@@ -1,0 +1,94 @@
+@if (isLoading()) {
+  <app-page-loader></app-page-loader>
+} @else {
+  <div class="cid-full-height-centered-content">
+    <h1>{{ modo === 'agregar' ? 'Agregar' : 'Editar' }} Persona</h1>
+    <form [formGroup]="editarPersonaForm" (ngSubmit)="onSubmit()" class="cid-vertical-form">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre(s)</mat-label>
+        <input matInput formControlName="nombre" type="text"/>
+        @if (editarPersonaForm.get('nombre')?.hasError('required')) {
+          <mat-error>Se requiere un nombre</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Apellido Paterno</mat-label>
+        <input matInput formControlName="apellidoPaterno" type="text"/>
+        @if (editarPersonaForm.get('apellidoPaterno')?.hasError('required')) {
+          <mat-error>Se requiere un primer apellido</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Apellido Materno</mat-label>
+        <input matInput formControlName="apellidoMaterno" type="text"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput formControlName="correo" type="email"/>
+        @if (editarPersonaForm.get('correo')?.hasError('email')) {
+          <mat-error>Introduzca un correo electrónico válido</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Hipocoristico</mat-label>
+        <input matInput formControlName="hipocoristico" type="text"/>
+      </mat-form-field>
+
+      <mat-radio-group aria-label="Select an option" formControlName="sexo">
+        <mat-radio-button value="Masculino">Masculino</mat-radio-button>
+        <mat-radio-button value="Femenino">Femenino</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field>
+        <mat-label>Afiliación</mat-label>
+        <mat-select formControlName="afiliacion">
+          <mat-option value="Miembro">Miembro</mat-option>
+          <mat-option value="Voluntario">Voluntario</mat-option>
+          <mat-option value="Beneficiario">Beneficiario</mat-option>
+          <mat-option value="Prospecto">Prospecto</mat-option>
+          <mat-option value="Donador">Donador</mat-option>
+          <mat-option value="Salido">Salido</mat-option>
+          <mat-option value="Vencedor">Vencedor</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Compromiso Actual</mat-label>
+        <mat-select formControlName="compromisoActual">
+          <mat-option value="Inicial">Inicial</mat-option>
+          <mat-option value="En Camino">En Camino</mat-option>
+          <mat-option value="Solemne">Solemne</mat-option>
+          <mat-option value="Misión">Misión</mat-option>
+          <mat-option value="Invitado">Invitado</mat-option>
+          <mat-option value="Ninguno">Ninguno</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>CURP</mat-label>
+        <input matInput formControlName="curp" type="text"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>RFC</mat-label>
+        <input matInput formControlName="rfc" type="text"/>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="submit-button" type="submit"
+              [disabled]="editarPersonaForm.invalid || isLoading()">
+        {{ modo === 'agregar' ? 'Agregar' : 'Guardar' }}
+      </button>
+
+      @if (modo === 'editar' && (isAdmin$ | async)) {
+        <button mat-raised-button class="delete-button" type="button" (click)="confirmDeletion()">
+          Borrar
+        </button>
+      }
+    </form>
+  </div>
+}
