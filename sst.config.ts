@@ -10,14 +10,15 @@ export default $config({
   },
   async run() {
     await import("./infra/storage");
-    await import("./infra/api");
     await import("./infra/web");
     const auth = await import("./infra/auth");
+    await import("./infra/api");
+    const identityPool = await import("./infra/identity-pool");
 
     return {
       UserPool: auth.userPool.id,
       Region: aws.getRegionOutput().name,
-      IdentityPool: auth.identityPool.id,
+      IdentityPool: identityPool.identityPool.id,
       UserPoolClient: auth.userPoolClient.id,
     };
   },

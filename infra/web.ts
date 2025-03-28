@@ -1,6 +1,7 @@
 import { api } from "./api";
 import { bucket } from "./storage";
-import { userPool, identityPool, userPoolClient } from "./auth";
+import { userPool, userPoolClient } from "./auth";
+import { identityPool } from "./identity-pool";
 
 const region = aws.getRegionOutput().name;
 

@@ -1,11 +1,12 @@
 import { notesTable } from "./storage";
 import { cidTable} from "./storage";
+import { userPool } from "./auth";
 
 export const api = new sst.aws.ApiGatewayV2("Api", {
   transform: {
     route: {
       handler: {
-        link: [notesTable, cidTable],
+        link: [notesTable, cidTable, userPool],
       },
       args: {
         auth: { iam: true }
