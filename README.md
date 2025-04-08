@@ -4,8 +4,17 @@ Una aplicación administrativa.
 Built using SST serverless stack tools.
 
 ## Get started
-1. Setup environment to run SST
-2. Deploy!
+1. Install Angular CLI globally: `npm install -g @angular/cli`
+2. Setup environment to run SST
+   - Understand the [workflow](https://sst.dev/docs/workflow)
+   - Setup your [Credentials](https://sst.dev/docs/iam-credentials) for your development environment
+3. Run dev
+
+   ```bash
+   npm install
+   npx sst dev
+   ```
+4. Deploy
 
    ```bash
    npm install
@@ -50,10 +59,5 @@ This template uses [npm Workspaces](https://docs.npmjs.com/cli/v8/using-npm/work
 
 ### Infrastructure
 
-The `infra/` directory allows you to logically split the infrastructure of your app into separate files. This can be helpful as your app grows.
-
-In the template, we have an `api.ts`, and `storage.ts`. These export the created resources. And are imported in the `sst.config.ts`.
-
----
-
-Join the SST community over on [Discord](https://discord.gg/sst) and follow us on [Twitter](https://twitter.com/SST_dev).
+The `infra/` directory contains several files which describe the cloud infrastructure of the application.
+                                      
