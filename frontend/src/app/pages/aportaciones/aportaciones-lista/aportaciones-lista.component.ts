@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -13,11 +14,11 @@ import {
   MatTable
 } from '@angular/material/table';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+
 import { AportacionesService } from '../../../services/aportaciones.service';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
 import { IAportacion } from '../../../../../../types/i-aportacion';
-import { CurrencyPipe, DatePipe } from '@angular/common';
-
 
 @Component({
   selector: 'app-aportaciones-lista',
@@ -25,6 +26,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
   imports: [
     RouterLink,
     PageLoaderComponent,
+    MatButtonModule,
     MatTable,
     MatColumnDef,
     MatHeaderCell,

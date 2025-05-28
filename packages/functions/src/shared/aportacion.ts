@@ -32,7 +32,7 @@ export class Aportacion extends Item implements IAportacion {
     get pk(): string { return `PERSONA#${this.personaId}`; }
     get sk(): string { return `APORTACION#${this.id}`; }
     get gsi1pk(): string | undefined { return "APORTACION"; }
-    get gsi1sk(): string | undefined { return this.fecha; }
+    get gsi1sk(): string | undefined { return this.id; }
 
     toItem(): Record<string, unknown> {
         return Object.assign({}, this, this.keys());

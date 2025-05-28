@@ -1,5 +1,7 @@
-<h1>Personas</h1>
-<a [routerLink]="['agregar']">Agregar una persona</a>
+<div class="space-between">
+  <h1>Personas</h1>
+  <a mat-stroked-button color="primary" [routerLink]="['agregar']">Agregar una persona</a>
+</div>
 @if(isLoading()) {
   <app-page-loader></app-page-loader>
 } @else {

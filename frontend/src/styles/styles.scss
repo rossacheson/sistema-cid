@@ -28,6 +28,7 @@ html {
   @include mat.dialog-theme(cid-theme.$dark-theme);
   @include mat.datepicker-theme(cid-theme.$dark-theme);
   @include mat.autocomplete-theme(cid-theme.$dark-theme);
+  @include mat.card-theme(cid-theme.$dark-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
@@ -59,8 +60,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   @include mat.button-color(cid-theme.$dark-theme, $color-variant: error);
 }
 
+a {
+  color: var(--cid-secondary-50);
+}
+
+.link-primary {
+  color: var(--cid-primary-50);
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* Angular Material Overrides */
 
 a.mat-mdc-list-item.active .mdc-list-item__primary-text {
   font-weight: bold;
+}
+
+mat-card-header {
+  margin-bottom: 5px;
 }

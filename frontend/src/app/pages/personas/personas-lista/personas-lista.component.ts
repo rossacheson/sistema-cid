@@ -12,6 +12,7 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { PersonasService } from '../../../services/personas.service';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
 import { IPersona } from '../../../../../../types/i-persona';
@@ -31,7 +32,8 @@ import { IPersona } from '../../../../../../types/i-persona';
     MatHeaderRowDef,
     MatRowDef,
     MatCellDef,
-    MatHeaderCellDef
+    MatHeaderCellDef,
+    MatButtonModule
   ],
   templateUrl: './personas-lista.component.html',
   styleUrl: './personas-lista.component.scss',

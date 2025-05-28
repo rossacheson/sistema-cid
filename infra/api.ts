@@ -23,7 +23,7 @@ api.route("DELETE /personas/{id}", "packages/functions/src/personas/delete.main"
 
 api.route("POST /aportaciones", "packages/functions/src/aportaciones/create.main");
 api.route("GET /aportaciones", "packages/functions/src/aportaciones/list.main");
-// api.route("GET /aportaciones/{id}", "packages/functions/src/aportaciones/get.main");
+api.route("GET /aportaciones/{id}", "packages/functions/src/aportaciones/get.main");
 // api.route("PUT /aportaciones/{id}", "packages/functions/src/aportaciones/update.main");
 // api.route("DELETE /aportaciones/{id}", "packages/functions/src/aportaciones/delete.main");
 
