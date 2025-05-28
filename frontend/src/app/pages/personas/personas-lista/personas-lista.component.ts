@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   MatCell,
@@ -14,7 +14,7 @@ import {
 } from '@angular/material/table';
 import { PersonasService } from '../../../services/personas.service';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
-import { IIndividuo } from '../../../../../../types/i-individuo';
+import { IPersona } from '../../../../../../types/i-persona';
 
 @Component({
   selector: 'app-personas-lista',
@@ -39,28 +39,25 @@ import { IIndividuo } from '../../../../../../types/i-individuo';
 })
 export class PersonasListaComponent implements OnInit {
   personasService = inject(PersonasService);
-  private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  isLoading = true;
+  isLoading = signal(true);
   displayedColumns: string[] = ['nombre', 'apellidos', 'sexo'];
-  personas: IIndividuo[] = [];
+  personas = signal<IPersona[]>([]);
 
   ngOnInit() {
     this.personasService.getPersonas().subscribe({
       next: personas => {
-        this.personas = personas;
-        this.isLoading = false;
-        this.cdr.markForCheck();
+        this.personas.set(personas);
+        this.isLoading.set(false);
       },
       error: () => {
-        this.isLoading = false;
-        this.cdr.markForCheck();
+        this.isLoading.set(false);
       }
     });
   }
 
-  goToPersona(persona: IIndividuo): void {
+  goToPersona(persona: IPersona): void {
     this.router.navigate([`/personas/ver/${persona.id}`], {state: {persona}});
   }
 }

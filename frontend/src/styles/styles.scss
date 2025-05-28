@@ -26,6 +26,8 @@ html {
   @include mat.table-theme(cid-theme.$dark-theme);
   @include mat.select-theme(cid-theme.$dark-theme);
   @include mat.dialog-theme(cid-theme.$dark-theme);
+  @include mat.datepicker-theme(cid-theme.$dark-theme);
+  @include mat.autocomplete-theme(cid-theme.$dark-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.

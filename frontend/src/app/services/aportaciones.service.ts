@@ -2,20 +2,20 @@ import { inject, Injectable } from '@angular/core';
 import { del, get, post, put } from 'aws-amplify/api';
 import { from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { API_NAME } from '../shared/constants';
-import { IPersona } from '../../../../types/i-persona';
+import { IAportacion } from '../../../../types/i-aportacion';
 import { CacheService } from './cache.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PersonasService {
+export class AportacionesService {
   cacheService = inject(CacheService);
-  private readonly apiBasePath = '/personas';
+  private readonly apiBasePath = '/aportaciones';
 
-  agregarPersona(persona: IPersona): Observable<IPersona> {
-    return from(post({apiName: API_NAME, path: this.apiBasePath, options: { body: persona as any }}).response)
+  agregarAportacion(aportacion: IAportacion): Observable<IAportacion> {
+    return from(post({apiName: API_NAME, path: this.apiBasePath, options: { body: aportacion as any }}).response)
       .pipe(
-        switchMap(res => res.body.json() as unknown as Promise<IPersona>),
+        switchMap(res => res.body.json() as unknown as Promise<IAportacion>),
         tap((res) => {
           this.cacheService.delete(this.apiBasePath);
           this.cacheService.set(`${this.apiBasePath}/${res.id}`, res, undefined, true);
@@ -23,9 +23,9 @@ export class PersonasService {
       );
   }
 
-  editarPersona(persona: IPersona): Observable<boolean> {
-    const apiPath = `${this.apiBasePath}/${persona.id}`;
-    return from(put({apiName: API_NAME, path: apiPath, options: { body: persona as any }}).response)
+  editarAportacion(aportacion: IAportacion): Observable<boolean> {
+    const apiPath = `${this.apiBasePath}/${aportacion.id}`;
+    return from(put({apiName: API_NAME, path: apiPath, options: { body: aportacion as any }}).response)
       .pipe(
         switchMap(res => res.body.json() as unknown as Promise<{ status: boolean }>),
         map(res => {
@@ -42,14 +42,14 @@ export class PersonasService {
       );
   }
 
-  getPersonas(): Observable<IPersona[]> {
-    const cachedResponse = this.cacheService.get<IPersona[]>(this.apiBasePath);
+  getAportaciones(): Observable<IAportacion[]> {
+    const cachedResponse = this.cacheService.get<IAportacion[]>(this.apiBasePath);
     if (cachedResponse) {
       return of(cachedResponse);
     }
     return from(get({apiName: API_NAME, path: this.apiBasePath}).response)
       .pipe(
-        switchMap(res => res.body.json() as unknown as Promise<IPersona[]>),
+        switchMap(res => res.body.json() as unknown as Promise<IAportacion[]>),
         map(res => {
           if(!Array.isArray(res)){
             console.error(res);
@@ -61,15 +61,15 @@ export class PersonasService {
       );
   }
 
-  getPersona(id: string): Observable<IPersona> {
+  getAportacion(id: string): Observable<IAportacion> {
     const apiPath = `${this.apiBasePath}/${id}`;
-    const cachedResponse = this.cacheService.get<IPersona>(apiPath);
+    const cachedResponse = this.cacheService.get<IAportacion>(apiPath);
     if (cachedResponse) {
       return of(cachedResponse);
     }
     return from(get({apiName: API_NAME, path: apiPath}).response)
       .pipe(
-        switchMap(res => res.body.json() as unknown as Promise<IPersona>),
+        switchMap(res => res.body.json() as unknown as Promise<IAportacion>),
         map(res => {
           if(!res.id){
             console.error(res);
@@ -81,7 +81,7 @@ export class PersonasService {
       );
   }
 
-  deletePersona(id: string): Observable<boolean> {
+  deleteAportacion(id: string): Observable<boolean> {
     const apiPath = `${this.apiBasePath}/${id}`;
     return from(del({apiName: API_NAME, path: apiPath}).response)
       .pipe(

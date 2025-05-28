@@ -1,12 +1,12 @@
 <h1>Personas</h1>
 <a [routerLink]="['agregar']">Agregar una persona</a>
-@if(isLoading) {
+@if(isLoading()) {
   <app-page-loader></app-page-loader>
 } @else {
-  @if(personas.length === 0) {
+  @if(personas().length === 0) {
     <div>No hay personas</div>
   } @else {
-    <table mat-table [dataSource]="personas" class="mat-elevation-z8">
+    <table mat-table [dataSource]="personas()" class="mat-elevation-z8">
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 

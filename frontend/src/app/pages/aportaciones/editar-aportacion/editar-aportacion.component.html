@@ -1,0 +1,105 @@
+@if (isLoading()) {
+<app-page-loader></app-page-loader>
+} @else {
+<div class="cid-full-height-centered-content">
+  <h1>{{ modo === "agregar" ? "Agregar" : "Editar" }} Aportación</h1>
+  <form
+    [formGroup]="editarAportacionForm"
+    (ngSubmit)="onSubmit()"
+    class="cid-vertical-form"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Persona</mat-label>
+      <input
+        type="text"
+        matInput
+        [matAutocomplete]="auto"
+        formControlName="persona"
+        placeholder="Seleccione una persona"
+        #personaInput
+        (input)="filterPersonas()"
+        (focus)="filterPersonas()"
+      />
+      <mat-autocomplete
+        requireSelection
+        #auto="matAutocomplete"
+        [displayWith]="displayPersona"
+      >
+        @for(persona of filteredPersonas(); track persona.id) {
+        <mat-option [value]="persona"
+          >{{ persona.nombre }} {{ persona.apellidoPaterno }}
+          {{ persona.apellidoMaterno }}</mat-option
+        >
+        }
+      </mat-autocomplete>
+      @if (editarAportacionForm.get('personaId')?.hasError('required')) {
+      <mat-error>Se requiere seleccionar una persona</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Concepto</mat-label>
+      <input matInput formControlName="concepto" type="text" />
+      @if (editarAportacionForm.get('concepto')?.hasError('required')) {
+      <mat-error>Se requiere un concepto</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Monto</mat-label>
+      <input matInput formControlName="monto" type="number" />
+      @if (editarAportacionForm.get('monto')?.hasError('required')) {
+      <mat-error>Se requiere un monto</mat-error>
+      } @if (editarAportacionForm.get('monto')?.hasError('min')) {
+      <mat-error>El monto debe ser positivo</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fecha" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (editarAportacionForm.get('fecha')?.hasError('required')) {
+      <mat-error>Se requiere una fecha</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Modo de Pago</mat-label>
+      <mat-select formControlName="modoDePago">
+        <mat-option value="efectivo">Efectivo</mat-option>
+        <mat-option value="transferencia">Transferencia</mat-option>
+      </mat-select>
+      @if (editarAportacionForm.get('modoDePago')?.hasError('required')) {
+      <mat-error>Se requiere seleccionar un modo de pago</mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="submit-button"
+      type="submit"
+      [disabled]="editarAportacionForm.invalid || isLoading()"
+    >
+      {{ modo === "agregar" ? "Agregar" : "Guardar" }}
+    </button>
+
+    @if (modo === 'editar' && (isAdmin$ | async)) {
+    <button
+      mat-raised-button
+      class="delete-button"
+      type="button"
+      (click)="confirmDeletion()"
+    >
+      Borrar
+    </button>
+    }
+  </form>
+</div>
+}

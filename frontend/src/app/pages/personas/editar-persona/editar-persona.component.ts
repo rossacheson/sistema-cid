@@ -11,8 +11,8 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { map, Observable } from 'rxjs';
 import { PersonasService } from '../../../services/personas.service';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
-import { IIndividuo } from '../../../../../../types/i-individuo';
-import { BorrarConfirmacionComponent } from './borrar-confirmacion/borrar-confirmacion.component';
+import { IPersona } from '../../../../../../types/i-persona';
+import { ConfirmacionComponent, ConfirmacionData } from '../../../components/confirmacion/confirmacion.component';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -46,7 +46,7 @@ export class EditarPersonaComponent implements OnInit {
   modo!: 'agregar' | 'editar';
   isLoading = signal<boolean>(true);
   private id = inject(ActivatedRoute).snapshot.paramMap.get('id')!;
-  private persona?: IIndividuo;
+  private persona?: IPersona;
 
   editarPersonaForm: FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
@@ -86,7 +86,7 @@ export class EditarPersonaComponent implements OnInit {
           },
         });
       } else {
-        const updatedPersona: IIndividuo = Object.assign({}, this.persona, this.editarPersonaForm.value);
+        const updatedPersona: IPersona = Object.assign({}, this.persona, this.editarPersonaForm.value);
         this.service.editarPersona(updatedPersona).subscribe({
           next: (result) => {
             console.log(result);
@@ -101,15 +101,22 @@ export class EditarPersonaComponent implements OnInit {
   }
 
   confirmDeletion(): void {
-    const dialogRef = this.dialog.open(BorrarConfirmacionComponent);
+    const dialogRef = this.dialog.open<ConfirmacionComponent, ConfirmacionData, boolean>(ConfirmacionComponent, {
+      data: {
+        title: 'Borrar Persona',
+        content: '¿Seguro que quieres borrar esta persona y toda su data asociada? Esta acción no se puede deshacer.',
+        actionButtonText: 'Borrar'
+      },
+      width: '400px',
+    });
 
     dialogRef.afterClosed().subscribe((result?: boolean) => {
-      if(result === true) {
+      if (result === true) {
         this.isLoading.set(true);
         console.log('Deleting persona');
         this.service.deletePersona(this.id).subscribe({
-          next: (result: boolean) => {
-            if (result) {
+          next: (apiResult: boolean) => {
+            if (apiResult) {
               this.router.navigate(['/personas']);
             } else {
               console.error('Error en eliminar la persona');
@@ -117,7 +124,8 @@ export class EditarPersonaComponent implements OnInit {
             }
           },
           error: error => {
-            console.error(error);
+            console.error('Error deleting persona:', error);
+            this.isLoading.set(false);
           }
         });
       }

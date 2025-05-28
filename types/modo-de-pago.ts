@@ -1,0 +1,1 @@
+export type ModoDePago = 'efectivo' | 'transferencia';

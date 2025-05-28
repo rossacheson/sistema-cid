@@ -1,0 +1,19 @@
+@if(isLoading) {
+  <app-page-loader></app-page-loader>
+} @else {
+  @if(aportacion) {
+    <div class="aportacion-details">
+      <h1>Aportación: {{aportacion.concepto}}</h1>
+      <a [routerLink]="'/aportaciones/editar/' + aportacion.id">Editar</a>
+      <h2>Detalles de la Aportación</h2>
+      <div><strong>Monto:</strong> {{aportacion.monto | currency}}</div>
+      <div><strong>Fecha:</strong> {{aportacion.fecha | date}}</div>
+      <div><strong>Tipo:</strong> {{aportacion.tipo}}</div>
+      <hr>
+      <div><strong>Record creado:</strong> {{aportacion.createdAt | date:'medium'}}</div>
+      <div><strong>Record actualizado:</strong> {{aportacion.updatedAt | date:'medium'}}</div>
+    </div>
+  } @else {
+    <div>Aportación no encontrada</div>
+  }
+}

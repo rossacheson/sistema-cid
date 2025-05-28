@@ -3,7 +3,7 @@ import { Util } from '@sistema-cid/core/util';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { GetCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { removeKeys } from "../shared/remove-keys";
-import { IIndividuo } from "../../../../types/i-individuo";
+import { IPersona } from "../../../../types/i-persona";
 
 const dynamoDb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
@@ -14,7 +14,7 @@ export const main = Util.handler(async (event) => {
   const params = {
     TableName: Resource.CID.name,
     Key: {
-      pk: `INDIVIDUO#${event?.pathParameters?.id}`,
+      pk: `PERSONA#${event?.pathParameters?.id}`,
       sk: "METADATA",
     },
   };
@@ -24,8 +24,8 @@ export const main = Util.handler(async (event) => {
     throw new Error('Item not found.');
   }
   
-  const individuo: IIndividuo = removeKeys(result.Item);
+  const persona: IPersona = removeKeys(result.Item);
 
   // Return the retrieved item
-  return JSON.stringify(individuo);
+  return JSON.stringify(persona);
 });

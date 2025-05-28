@@ -8,7 +8,7 @@ describe('BorrarConfirmacionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BorrarConfirmacionComponent]
+      imports: [BorrarConfirmacionComponent] // May need to mock MatDialogRef
     })
     .compileComponents();
 

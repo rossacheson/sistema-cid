@@ -11,7 +11,7 @@ export const main = Util.handler(async (event) => {
         IndexName: "gsi1",
         KeyConditionExpression: "gsi1pk = :gsi1pkValue",
         ExpressionAttributeValues: {
-            ":gsi1pkValue": "INDIVIDUO",
+            ":gsi1pkValue": "APORTACION",
         },
     };
 
