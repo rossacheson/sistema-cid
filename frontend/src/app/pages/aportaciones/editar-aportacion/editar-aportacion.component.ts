@@ -64,6 +64,7 @@ export class EditarAportacionComponent implements OnInit {
   modo!: 'agregar' | 'editar';
   isLoading = signal<boolean>(true);
   personas = signal<IPersona[]>([]);
+  personaLoaded = signal<boolean>(false);
   filteredPersonas = signal<IPersona[]>([]);
   @ViewChild('personaInput') personaInput?: ElementRef<HTMLInputElement>;
   private id = inject(ActivatedRoute).snapshot.paramMap.get('id')!;
@@ -87,7 +88,8 @@ export class EditarAportacionComponent implements OnInit {
     this.fetchPersonas();
 
     if (this.modo === 'editar') {
-      // this.getAportacion(this.id);
+      this.getAportacion(this.id);
+      this.editarAportacionForm.get('persona')?.disable();
     } else {
       this.isLoading.set(false);
     }
@@ -96,7 +98,7 @@ export class EditarAportacionComponent implements OnInit {
   onSubmit() {
     if (this.editarAportacionForm.valid) {
       this.isLoading.set(true);
-      const formValue = this.editarAportacionForm.value;
+      const formValue = this.editarAportacionForm.getRawValue();
       console.log('Form Value:', formValue);
       const aportacion: IAportacion = {
         personaId: formValue.persona.id,
@@ -124,22 +126,17 @@ export class EditarAportacionComponent implements OnInit {
           ...formValue,
           id: this.id,
         };
-        // Mock service call
-        console.log('Mock: Editing aportacion', updatedAportacion);
-        setTimeout(() => {
-          this.isLoading.set(false);
-          this.router.navigate([`/aportaciones/ver/${this.id}`]);
-        }, 1000);
-        // this.service.editarAportacion(updatedAportacion).subscribe({
-        //   next: (result) => {
-        //     this.router.navigate([`/aportaciones/ver/${updatedAportacion.id}`]);
-        //   },
-        //   error: error => {
-        //     console.log(error);
-        //     alert('Error en editar la aportación');
-        //     this.isLoading.set(false);
-        //   }
-        // });
+
+        this.service.editarAportacion(updatedAportacion).subscribe({
+          next: (result) => {
+            this.router.navigate([`/aportaciones/ver/${updatedAportacion.id}`]);
+          },
+          error: error => {
+            console.log(error);
+            alert('Error en editar la aportación');
+            this.isLoading.set(false);
+          }
+        });
       }
     }
   }
@@ -158,20 +155,18 @@ export class EditarAportacionComponent implements OnInit {
       if (result === true) {
         this.isLoading.set(true);
         console.log('Deleting aportacion with ID:', this.id);
-        this.service.deleteAportacion(this.id).subscribe({
+        this.service.deleteAportacion(this.aportacion!.personaId, this.id).subscribe({
           next: (deleteResult: boolean) => {
             if (deleteResult) {
               this.router.navigate(['/aportaciones']);
             } else {
               console.error('Error al eliminar la aportación: la API devolvió falso.');
               this.isLoading.set(false);
-              // Consider showing a user-facing error message
             }
           },
           error: error => {
             console.error('Error en la llamada API para eliminar aportación:', error);
             this.isLoading.set(false);
-            // Consider showing a user-facing error message
           }
         });
       }
@@ -207,36 +202,33 @@ export class EditarAportacionComponent implements OnInit {
       next: (personas) => {
         this.personas.set(personas);
         this.filterPersonas();
+
+        if(this.modo === 'editar' && this.aportacion && !this.personaLoaded()){
+          this.editarAportacionForm.get('persona')?.setValue(this.personas()
+            .find(persona => persona.id === this.aportacion!.personaId));
+          this.personaLoaded.set(true);
+        }
       },
     });
   }
 
-  // private getAportacion(id: string): void {
-  //   this.isLoading.set(true);
-  //   // Mock service call
-  //   console.log('Mock: Getting aportacion', id);
-  //   setTimeout(() => {
-  //     const mockAportacion = {
-  //       id: id,
-  //       concepto: 'Cuota Especial ' + id,
-  //       monto: 250,
-  //       fecha: new Date(),
-  //       tipo: 'Extraordinaria'
-  //     };
-  //     this.editarAportacionForm.patchValue(mockAportacion);
-  //     this.aportacion = mockAportacion;
-  //     this.isLoading.set(false);
-  //   }, 1000);
-  //   // this.service.getAportacion(id).subscribe({
-  //   //   next: aportacion => {
-  //   //     this.editarAportacionForm.patchValue(aportacion);
-  //   //     this.aportacion = aportacion;
-  //   //     this.isLoading.set(false);
-  //   //   },
-  //   //   error: () => {
-  //   //     this.isLoading.set(false);
-  //   //     // Handle error, e.g., navigate back or show message
-  //   //   }
-  //   // });
-  // }
+  private getAportacion(id: string): void {
+    this.isLoading.set(true);
+    this.service.getAportacion(id).subscribe({
+      next: aportacion => {
+        this.editarAportacionForm.patchValue(aportacion);
+        this.aportacion = aportacion;
+
+        if(this.personas().length > 0 && !this.personaLoaded()){
+          this.editarAportacionForm.get('persona')?.setValue(this.personas().find(persona => persona.id === aportacion.personaId));
+          this.personaLoaded.set(true);
+        }
+
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      }
+    });
+  }
 }

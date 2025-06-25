@@ -81,8 +81,8 @@ export class AportacionesService {
       );
   }
 
-  deleteAportacion(id: string): Observable<boolean> {
-    const apiPath = `${this.apiBasePath}/${id}`;
+  deleteAportacion(personaId: string, aportacionId: string): Observable<boolean> {
+    const apiPath = `${this.apiBasePath}/${personaId}/${aportacionId}`;
     return from(del({apiName: API_NAME, path: apiPath}).response)
       .pipe(
         map(res => {

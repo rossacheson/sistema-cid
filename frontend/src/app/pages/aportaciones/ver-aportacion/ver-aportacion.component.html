@@ -9,31 +9,33 @@
       </div>
       <a routerLink="/aportaciones" class="link-primary back-link">← Regresar a la lista</a>
 
-      <mat-card class="aportacion-card">
+      <mat-card class="aportacion-card cid-details-card">
         <mat-card-header>
           <mat-card-title>Detalles</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="detail-item">
-            <span class="detail-label">Concepto:</span>
-            <span class="detail-value">{{currentAportacion.concepto}}</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Donante:</span>
-            <a [routerLink]="'/personas/' + currentAportacion.personaId" class="detail-value">{{currentAportacion.personaNombre}}</a>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Monto:</span>
-            <span class="detail-value">{{currentAportacion.monto | currency:'MXN'}}</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Fecha:</span>
-            <span class="detail-value">{{currentAportacion.fecha | date:'d MMMM yyyy'}}</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Tipo:</span>
-            <span class="detail-value">{{currentAportacion.modoDePago}}</span>
-          </div>
+          <dl class="detail-content">
+            <div class="detail-item">
+              <dt class="detail-label">Concepto:</dt>
+              <dd class="detail-value">{{currentAportacion.concepto}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Donante:</dt>
+              <dd><a [routerLink]="'/personas/ver/' + currentAportacion.personaId" class="detail-value">{{currentAportacion.personaNombre}}</a></dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Monto:</dt>
+              <dd class="detail-value">{{currentAportacion.monto | currency:'MXN'}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Fecha:</dt>
+              <dd class="detail-value">{{currentAportacion.fecha | date:'d MMMM yyyy'}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Tipo:</dt>
+              <dd class="detail-value">{{currentAportacion.modoDePago}}</dd>
+            </div>
+          </dl>
         </mat-card-content>
       </mat-card>
 

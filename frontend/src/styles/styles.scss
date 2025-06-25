@@ -89,3 +89,26 @@ a.mat-mdc-list-item.active .mdc-list-item__primary-text {
 mat-card-header {
   margin-bottom: 5px;
 }
+
+.cid-details-card {
+  dl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .detail-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+  }
+
+  dt {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0;
+  }
+}

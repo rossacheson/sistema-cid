@@ -24,18 +24,6 @@
     margin-bottom: 20px;
 }
   
-.detail-item {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-    font-size: 1em;
-  
-    .detail-label {
-      font-weight: bold;
-      min-width: 80px; // Helps align values if labels have different lengths
-    }
-}
-  
 .metadata {
     margin-top: 20px;
     font-size: 0.9em;
