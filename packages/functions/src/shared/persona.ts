@@ -1,6 +1,6 @@
 import { ulid } from "ulid";
 import { Item } from "./item";
-import { IIndividuo } from "../../../../types/i-individuo";
+import { IPersona } from "../../../../types/i-persona";
 import { NivelDeCompromiso } from "../../../../types/nivel-de-compromiso";
 import { Afiliacion } from "../../../../types/afiliacion";
 import { Compromiso } from "../../../../types/i-compromiso";
@@ -12,7 +12,7 @@ import { Sexo } from "../../../../types/sexo";
 import { Telefono } from "../../../../types/telefono";
 import { TipoDeSangre } from "../../../../types/tipo-de-sangre";
 
-export class Individuo extends Item implements IIndividuo {
+export class Persona extends Item implements IPersona {
     id?: string;
     nombre!: string;
     apellidoPaterno!: string;
@@ -44,7 +44,7 @@ export class Individuo extends Item implements IIndividuo {
     createdAt?: string;
     updatedAt?: string;
     
-    constructor(params: IIndividuo) {
+    constructor(params: IPersona) {
         super();
         Object.assign(this, params);
         if(!this.id) {
@@ -56,9 +56,9 @@ export class Individuo extends Item implements IIndividuo {
         }
     }
     
-    get pk(): string { return `INDIVIDUO#${this.id}`; }
+    get pk(): string { return `PERSONA#${this.id}`; }
     get sk(): string { return "METADATA"; }
-    get gsi1pk(): string | undefined { return "INDIVIDUO"; }
+    get gsi1pk(): string | undefined { return "PERSONA"; }
     get gsi1sk(): string | undefined { return this.apellidoPaterno; }
 
     toItem(): Record<string, unknown> {

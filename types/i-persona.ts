@@ -9,7 +9,7 @@ import { EstadoCivil } from "./estado-civil";
 import { TipoDeSangre } from "./tipo-de-sangre";
 import { Afiliacion } from "./afiliacion";
 
-export interface IIndividuo {
+export interface IPersona {
   id?: string;
   nombre: string;
   apellidoPaterno: string;

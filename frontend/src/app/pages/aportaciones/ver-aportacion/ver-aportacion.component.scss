@@ -1,0 +1,45 @@
+.ver-aportacion-container {
+    padding: 20px;
+    max-width: 700px;
+    margin: auto;
+}
+  
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  
+    h1 {
+      margin: 0;
+    }
+}
+  
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+  
+.aportacion-card {
+    margin-bottom: 20px;
+}
+  
+.metadata {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: var(--cid-neutral-50);
+  
+    p {
+      margin: 5px 0;
+    }
+}
+  
+.not-found-message {
+    text-align: center;
+    padding: 40px;
+
+    h2 {
+      margin-bottom: 16px;
+    }
+}
+  

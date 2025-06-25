@@ -1,0 +1,53 @@
+@if(isLoading()) {
+  <app-page-loader></app-page-loader>
+} @else {
+  @if(aportacion(); as currentAportacion) {
+    <div class="ver-aportacion-container">
+      <div class="space-between page-header">
+        <h1>Aportación: {{currentAportacion.concepto}}</h1>
+        <a mat-stroked-button color="primary" [routerLink]="'/aportaciones/editar/' + currentAportacion.id">Editar</a>
+      </div>
+      <a routerLink="/aportaciones" class="link-primary back-link">← Regresar a la lista</a>
+
+      <mat-card class="aportacion-card cid-details-card">
+        <mat-card-header>
+          <mat-card-title>Detalles</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <dl class="detail-content">
+            <div class="detail-item">
+              <dt class="detail-label">Concepto:</dt>
+              <dd class="detail-value">{{currentAportacion.concepto}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Donante:</dt>
+              <dd><a [routerLink]="'/personas/ver/' + currentAportacion.personaId" class="detail-value">{{currentAportacion.personaNombre}}</a></dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Monto:</dt>
+              <dd class="detail-value">{{currentAportacion.monto | currency:'MXN'}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Fecha:</dt>
+              <dd class="detail-value">{{currentAportacion.fecha | date:'d MMMM yyyy'}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt class="detail-label">Tipo:</dt>
+              <dd class="detail-value">{{currentAportacion.modoDePago}}</dd>
+            </div>
+          </dl>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="metadata">
+        <p>Record creado: {{currentAportacion.createdAt | date:'d MMMM yyyy'}}</p>
+        <p>Record actualizado: {{currentAportacion.updatedAt | date:'d MMMM yyyy'}}</p>
+      </div>
+    </div>
+  } @else {
+    <div class="not-found-message">
+      <h2>Aportación no encontrada</h2>
+      <a routerLink="/aportaciones">Regresar a la lista</a>
+    </div>
+  }
+}

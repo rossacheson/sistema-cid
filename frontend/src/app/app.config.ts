@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -15,5 +15,6 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeAmplify,
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: 'es-MX' } // Changed from 'es'
   ]
 };

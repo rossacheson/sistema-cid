@@ -15,11 +15,17 @@ export const api = new sst.aws.ApiGatewayV2("Api", {
   }
 });
 
-api.route("POST /individuos", "packages/functions/src/individuos/create.main");
-api.route("GET /individuos", "packages/functions/src/individuos/list.main");
-api.route("GET /individuos/{id}", "packages/functions/src/individuos/get.main");
-api.route("PUT /individuos/{id}", "packages/functions/src/individuos/update.main");
-api.route("DELETE /individuos/{id}", "packages/functions/src/individuos/delete.main");
+api.route("POST /personas", "packages/functions/src/personas/create.main");
+api.route("GET /personas", "packages/functions/src/personas/list.main");
+api.route("GET /personas/{id}", "packages/functions/src/personas/get.main");
+api.route("PUT /personas/{id}", "packages/functions/src/personas/update.main");
+api.route("DELETE /personas/{id}", "packages/functions/src/personas/delete.main");
+
+api.route("POST /aportaciones", "packages/functions/src/aportaciones/create.main");
+api.route("GET /aportaciones", "packages/functions/src/aportaciones/list.main");
+api.route("GET /aportaciones/{id}", "packages/functions/src/aportaciones/get.main");
+api.route("PUT /aportaciones/{id}", "packages/functions/src/aportaciones/update.main");
+api.route("DELETE /aportaciones/{personaId}/{aportacionId}", "packages/functions/src/aportaciones/delete.main");
 
 api.route("POST /notes", "packages/functions/src/notes/create.main");
 api.route("GET /notes/{id}", "packages/functions/src/notes/get.main");

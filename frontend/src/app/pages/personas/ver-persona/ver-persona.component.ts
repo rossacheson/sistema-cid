@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit }
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PersonasService } from '../../../services/personas.service';
-import { IIndividuo } from '../../../../../../types/i-individuo';
+import { IPersona } from '../../../../../../types/i-persona';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class VerPersonaComponent implements OnInit {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private id = inject(ActivatedRoute).snapshot.paramMap.get('id')!;
-  persona?: IIndividuo;
+  persona?: IPersona;
   isLoading = true;
 
   ngOnInit() {

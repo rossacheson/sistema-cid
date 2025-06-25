@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -12,17 +13,20 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { PersonasService } from '../../../services/personas.service';
+
+import { AportacionesService } from '../../../services/aportaciones.service';
 import { PageLoaderComponent } from '../../../components/page-loader/page-loader.component';
-import { IPersona } from '../../../../../../types/i-persona';
+import { IAportacion } from '../../../../../../types/i-aportacion';
 
 @Component({
-  selector: 'app-personas-lista',
+  selector: 'app-aportaciones-lista',
   standalone: true,
   imports: [
     RouterLink,
     PageLoaderComponent,
+    MatButtonModule,
     MatTable,
     MatColumnDef,
     MatHeaderCell,
@@ -33,24 +37,27 @@ import { IPersona } from '../../../../../../types/i-persona';
     MatRowDef,
     MatCellDef,
     MatHeaderCellDef,
-    MatButtonModule
+    MatAutocompleteModule,
+    CurrencyPipe,
+    DatePipe
   ],
-  templateUrl: './personas-lista.component.html',
-  styleUrl: './personas-lista.component.scss',
+  templateUrl: './aportaciones-lista.component.html',
+  styleUrl: './aportaciones-lista.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PersonasListaComponent implements OnInit {
-  personasService = inject(PersonasService);
+export class AportacionesListaComponent implements OnInit {
+  aportacionesService = inject(AportacionesService);
   private router = inject(Router);
 
   isLoading = signal(true);
-  displayedColumns: string[] = ['nombre', 'apellidos', 'sexo'];
-  personas = signal<IPersona[]>([]);
+  displayedColumns: string[] = ['persona', 'concepto', 'monto', 'fecha'];
+  aportaciones = signal<IAportacion[]>([]);
 
   ngOnInit() {
-    this.personasService.getPersonas().subscribe({
-      next: personas => {
-        this.personas.set(personas);
+
+    this.aportacionesService.getAportaciones().subscribe({
+      next: aportaciones => {
+        this.aportaciones.set(aportaciones);
         this.isLoading.set(false);
       },
       error: () => {
@@ -59,7 +66,7 @@ export class PersonasListaComponent implements OnInit {
     });
   }
 
-  goToPersona(persona: IPersona): void {
-    this.router.navigate([`/personas/ver/${persona.id}`], {state: {persona}});
+  goToAportacion(aportacion: IAportacion): void {
+    this.router.navigate([`/aportaciones/ver/${aportacion.id}`], {state: {aportacion}});
   }
 }

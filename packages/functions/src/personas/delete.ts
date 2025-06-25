@@ -34,7 +34,7 @@ export const main = Util.handler(async (event) => {
     const params = {
         TableName: Resource.CID.name,
         Key: {
-            pk: `INDIVIDUO#${event?.pathParameters?.id}`,
+            pk: `PERSONA#${event?.pathParameters?.id}`,
             sk: "METADATA",
         },
     };
